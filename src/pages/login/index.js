@@ -12,6 +12,8 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
 import { useRouter } from 'next/router';
+import { useContext } from 'react';
+import { userContext } from '../_app';
 
 
 function Copyright(props) {
@@ -31,6 +33,7 @@ const theme = createTheme();
 
 export default function SignIn() {
   const router = useRouter()
+  const {setToken} = useContext(userContext)
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -49,6 +52,7 @@ export default function SignIn() {
     const promise = axios.post(URL, user)
 
     promise.then((res) => {
+      setToken(res.data.token)
       router.push('/dashboard')
     })
 
